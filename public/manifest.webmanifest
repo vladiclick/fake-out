@@ -1,0 +1,21 @@
+{
+  "name": "Fake Out — Party Game",
+  "short_name": "Fake Out",
+  "description": "A pass-the-phone social deduction party game. Everyone gets the secret word — except the imposters. Talk, bluff, and find the fakes.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#101014",
+  "theme_color": "#F8262E",
+  "categories": ["games", "entertainment"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    }
+  ]
+}
