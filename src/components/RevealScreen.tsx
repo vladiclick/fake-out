@@ -36,8 +36,9 @@ export function RevealScreen() {
   const [prog, setProg] = useState(0);
   const drag = useRef<{ y: number } | null>(null);
   const progRef = useRef(0);
-  const pointerIdRef = useRef<number | null>(null);
-  const screenRef = useRef<HTMLDivElement | null>(null);
+  // Element + pointer id of an active capture. The element is stored at capture
+  // time: React clears element refs before unmount cleanups run.
+  const captureRef = useRef<{ el: HTMLElement; id: number } | null>(null);
   const RANGE = 260;        // px of upward travel to fully open
   const THRESHOLD = 0.25;   // open past this → counts as "revealed"
 
@@ -54,9 +55,10 @@ export function RevealScreen() {
   // Cleanup pointer capture on unmount to prevent stuck pointer on rapid navigation.
   useEffect(() => {
     return () => {
-      if (pointerIdRef.current !== null && screenRef.current) {
+      const capture = captureRef.current;
+      if (capture) {
         try {
-          screenRef.current.releasePointerCapture(pointerIdRef.current);
+          capture.el.releasePointerCapture(capture.id);
         } catch {
           /* capture may already be released — ignore */
         }
@@ -87,8 +89,9 @@ export function RevealScreen() {
     if ((e.target as HTMLElement).closest('button')) return;
     drag.current = { y: e.clientY };
     setDragging(true);
-    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-    pointerIdRef.current = e.pointerId;
+    const el = e.currentTarget as HTMLElement;
+    el.setPointerCapture(e.pointerId);
+    captureRef.current = { el, id: e.pointerId };
   };
 
   const onPointerMove = (e: React.PointerEvent) => {
@@ -106,7 +109,7 @@ export function RevealScreen() {
   const endDrag = (e: React.PointerEvent) => {
     if (!drag.current) return;
     (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
-    pointerIdRef.current = null;
+    captureRef.current = null;
     drag.current = null;
     setDragging(false);
     if (progRef.current > THRESHOLD) setRevealed(true);
@@ -136,7 +139,6 @@ export function RevealScreen() {
     <div
       className="screen reveal"
       style={{ background: theme.bg }}
-      ref={screenRef}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={endDrag}
