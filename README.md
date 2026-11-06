@@ -45,7 +45,7 @@ End-to-end tests (Playwright, run against the dev server):
 ```bash
 npx playwright install chromium
 npm run dev          # in one terminal
-node tests/run-all-tests.mjs
+npm run test:e2e     # in another
 ```
 
 ## Status
