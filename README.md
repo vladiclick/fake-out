@@ -40,6 +40,12 @@ npm run build        # output in dist/
 npm run preview
 ```
 
+Unit tests (Vitest):
+
+```bash
+npm test
+```
+
 End-to-end tests (Playwright, run against the dev server):
 
 ```bash
