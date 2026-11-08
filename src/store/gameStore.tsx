@@ -4,6 +4,7 @@
 import { createContext, useContext, useReducer, type ReactNode } from 'react';
 import { AVATARS, DECKS, PLAYER_THEMES, getRandomWord, shuffle } from '../data/words';
 import { loadXP, triggerPolyglotAchievement } from '../utils/stats';
+import { dealRoles } from './deal';
 
 export interface PlayerInfo {
   name: string;
@@ -296,10 +297,7 @@ function reducer(state: AppState, action: Action): AppState {
         theme: themePool[idx % themePool.length],
       }));
 
-      // Single shuffled index array: first nImp are imposters, rest is turnOrder.
-      const shuffled = shuffle(state.players.map((_, i) => i));
-      const imposters = shuffled.slice(0, nImp);
-      const turnOrder = shuffled;
+      const { imposters, turnOrder } = dealRoles(state.players.length, nImp);
 
       const baseGame = {
         imposters,
