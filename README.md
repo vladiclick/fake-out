@@ -22,7 +22,7 @@ Pass-the-phone party game: everyone gets the secret word except the imposters. T
 
 ## Tech stack
 
-React 19 · TypeScript · Vite · Tailwind CSS 4 · Zustand · Framer Motion · Playwright (end-to-end tests)
+React 19 · TypeScript · Vite · Tailwind CSS 4 · Framer Motion · Vitest (unit tests) · Playwright (end-to-end tests)
 
 ## Getting started
 
