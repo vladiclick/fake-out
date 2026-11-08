@@ -89,7 +89,7 @@ export function loadXP(): number {
     const raw = localStorage.getItem('fakeit.xp');
     if (!raw) return 0;
     const parsed = parseInt(raw, 10);
-    return isNaN(parsed) ? 0 : parsed;
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
   } catch {
     return 0;
   }

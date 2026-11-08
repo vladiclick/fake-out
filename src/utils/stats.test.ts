@@ -56,6 +56,17 @@ describe('getXPLevelInfo', () => {
   });
 });
 
+describe('loadXP', () => {
+  it('reads stored XP and ignores junk or negative values', () => {
+    localStorage.setItem('fakeit.xp', '1200');
+    expect(loadXP()).toBe(1200);
+    localStorage.setItem('fakeit.xp', 'abc');
+    expect(loadXP()).toBe(0);
+    localStorage.setItem('fakeit.xp', '-300');
+    expect(loadXP()).toBe(0);
+  });
+});
+
 describe('logMatchResult', () => {
   it('gives 250 XP to crew that won and voted right', () => {
     expect(logMatchResult(crewWin).xpEarned).toBe(250);
